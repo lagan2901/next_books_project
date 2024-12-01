@@ -1,0 +1,47 @@
+.ratingdiv{
+    display:flex;
+    /* border:red solid 1px; */
+    justify-content: space-around;
+    flex-wrap: wrap;
+    padding:10px;
+}   
+
+.ratingdiv input{
+   position: absolute;
+   top:0px;
+   left:0px;
+   padding:0px;
+   margin:0px;
+   height:100%;
+   width:100%;
+   opacity: 0;
+   cursor: pointer;
+}
+
+.stardiv{
+    width:18%;
+    position:relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #2D2D2D;
+    border-radius: 10px;
+    cursor: pointer;
+    padding:5px;
+    transition: all 0.09s ease-in-out;
+}
+
+.starnumber{
+    /* border:red solid 1px; */
+    font-size: 19px;
+
+}
+
+.staricon{
+    font-size: 20px;
+}
+
+.stardiv:hover,.divActive{
+    background-color: white;
+    color:black;
+}
