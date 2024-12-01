@@ -2,8 +2,11 @@ import { useEffect, useState } from "react";
 
 export const useAuth = ()=>{
     const [user, setUser] = useState(null);
-    const token = localStorage.getItem("TOKEN");
+    let token =""
+    if (typeof window !== "undefined") {
 
+    token = localStorage.getItem("TOKEN");
+    }
     useEffect(() => {
         if(token){
             fetch("/api/user/me", {

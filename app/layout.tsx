@@ -4,7 +4,7 @@ import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import Layout from "../components/Layout/Layout";
 import { NotificationsProvider } from "@mantine/notifications";
-function MyApp({ children, pageProps }) {
+function MyApp({ children }) {
   return (
     <html lang="en">
       <body>

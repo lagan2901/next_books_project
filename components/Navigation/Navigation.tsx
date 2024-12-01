@@ -153,7 +153,10 @@ const Navigation = () => {
               <button
                 className={styles.user}
                 onClick={async () => {
+        if (typeof window !== "undefined") {
+
                   localStorage.clear();
+        }
                   window.location.href = "/";
                 }}
               >
@@ -180,14 +183,14 @@ const Navigation = () => {
               <Text>No items in cart</Text>
             </Center>
           )}
-          {userItems.map((useritem) => {
+          {userItems.map((useritem,index) => {
             return (
               <CartItem
                 item={useritem}
                 onIncrease={() => {
                   dispatch(userCartActions.addproduct(useritem));
                 }}
-                // key={useritem._id}
+                key={index}
               />
             );
           })}

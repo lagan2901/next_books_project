@@ -8,6 +8,7 @@ const useValidate=(check:(value:string)=>{})=>{
     
     const hasError= (errorStatement.length>0) && isTouched;
     const res=check(enteredValue);
+    // @ts-ignore   
     const value=getValue(res.error,['details','0','message'],'');
     const use=useCallback(()=>{
         if(value.length>0){

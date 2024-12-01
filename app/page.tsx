@@ -20,7 +20,7 @@ type data = {
     categories: string[];
   };
 }[];
-const Home: React.FC<{ sampledata: { booksArray: data } }> = (props) => {
+const Home = (props) => {
   const { isLoading, error, sendRequest, setErrorNull } = useApi();
   const [data, setData] = useState([]);
   function applyData(data: any) {}
@@ -28,7 +28,7 @@ const Home: React.FC<{ sampledata: { booksArray: data } }> = (props) => {
   const getBooks = async () => {
     const response = await fetch("/api/books/getall"
       ,{
-        
+
       }
     );
     const data = await response.json();

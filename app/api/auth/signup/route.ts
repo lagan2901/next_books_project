@@ -46,7 +46,8 @@ export async function POST(req: Request) {
     });
     const response_save = await newUser.save();
     if (response_save != null) {
-      const _user = response_save._doc;
+      // @ts-ignore
+      const _user = response_save?._doc;
       delete _user.password;
       const token = jwt.sign(
         { id: _user._id, email: _user.email },

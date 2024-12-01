@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 const connect = async () => {
   try{
   mongoose.connect(
-    `mongodb+srv://lgn3269:HELLO23456@cluster0.vcb6e.mongodb.net/books?retryWrites=true&w=majority&appName=Cluster0`,
+    `mongodb+srv://naman12:spW7F8n2bIrWoZSD@cluster0.9rzomve.mongodb.net/books?retryWrites=true&w=majority`,
     {},
     (err) => {
       if (err) console.log("Error connecting to MongoDB", err);

@@ -3,7 +3,7 @@ import { errorHandler } from "../../../../utils/common";
 import User from "../../../../modals/User";
 import { NextResponse } from "next/server";
 
-export async function GET(req: NextApiRequest, res: NextApiResponse) {
+export async function GET(req, res) {
   const { userId } = req.body;
   try {
     const books = await User.findById(userId).populate("cartItems");

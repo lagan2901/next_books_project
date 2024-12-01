@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { Books } from "../../../../modals/Books";
+import Books from "../../../../modals/Books";
 import { errorHandler } from "../../../../utils/common";
 import { NextResponse } from "next/server";
 import connect from "../../../../lib/database";
@@ -8,7 +8,8 @@ export async function GET() {
   console.log("in api");
   try {
     await connect();
-    const books = await Books.find().limit(80);
+    //@ts-ignore
+    const books = await Books.find({}).limit(80);
     return NextResponse.json(books);
   } catch (err) {
     console.log(err);
