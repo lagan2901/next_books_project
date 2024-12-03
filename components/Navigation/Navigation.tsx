@@ -1,3 +1,4 @@
+
 "use client";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -12,195 +13,153 @@ import { RootState } from "../../store";
 import { userCart } from "../../store/userCart";
 import { BooksData } from "../HomeBooks/Homebooks";
 import CartItem from "./CartItem";
-import styles from "./Navigation.module.css";
-const userCartActions = userCart.actions;
-// import { useNavigate } from "react-router-dom";
-const Navigation = () => {
-  const [isActive, setisActive] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [showModal, setShowModal] = useState(false);
-  const [cartItems, setCartItems] = useState([]);
-  const {user} =useAuth()
-  const searchfocusHandler = () => {
-    setisActive(true);
-  };
-  const searchblurHandler = () => {
-    setisActive(false);
-  };
 
-  useEffect(() => {
-    console.log("user--")
-   console.log(user)
-  }, [user]);
-  async function getuserCartItems() {
-    const res = await axios.get("/api/user/getCartItems");
-  }
-  const classes = `${styles.searchdiv} ${isActive ? styles.searchactive : ""}`;
-  const userItems = useSelector<RootState, BooksData[]>((state) => {
-    return state.userCart.items;
-  });
+const userCartActions = userCart.actions;
+
+const Navigation = () => {
+  const [isActive, setIsActive] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
+  const { user } = useAuth();
+  const userItems = useSelector<RootState, BooksData[]>((state) => state.userCart.items);
   const dispatch = useDispatch();
 
-  
+  const searchfocusHandler = () => setIsActive(true);
+  const searchblurHandler = () => setIsActive(false);
 
-    async function addToCarthandler() {
-      if (user) {
-        dispatch(userCartActions.removeAllproducts());
-        const yy = await axios.post("/api/user/postBooks", {
-          emailId: user.email,
-          bookItems: userItems,
-        });
-        const data = await yy.data;
-        console.log(data);
-        showNotification({
-          message: "Order Placed Successfully",
-        });
-        setShowModal(false);
-      } else {
-        showNotification({
-          message: "You need to first login",
-        });
-      }
+  useEffect(() => {
+    console.log("user--", user);
+  }, [user]);
+
+  async function addToCarthandler() {
+    if (user) {
+      dispatch(userCartActions.removeAllproducts());
+      const response = await axios.post("/api/user/postBooks", {
+        emailId: user.email,
+        bookItems: userItems,
+      });
+      showNotification({ message: "Order Placed Successfully" });
+      setShowModal(false);
+    } else {
+      showNotification({ message: "You need to first login" });
     }
+  }
+
   return (
     <>
-      <div className={styles.main}>
-        <div className={styles.navigator}>
-          <div className={styles.logo}>
-            <p className={styles.logoname}>B</p>
-            <img src="/logo3.png" alt="books" className={styles.logoimg}></img>
-            <p className={styles.logoname}>ks</p>
-          </div>
-          <div className={styles.homeproducts}>
-            <p
-              className={styles.home}
-              onClick={() => {
-                window.location.href = "/";
-                //   navigate("/products");
-              }}
-              style={{
-                cursor: "pointer",
-              }}
-            >
-              Home
-            </p>
-            <p
-              className={styles.products}
-              onClick={() => {
-                window.location.href = "/adminPanel";
-                // navigate("/products");
-              }}
-              style={{
-                cursor: "pointer",
-              }}
-            >
-              Admin Panel
-            </p>
-            <p
-              className={styles.products}
-              onClick={() => {
-                window.location.href = "/myorders";
-                // navigate("/products");
-              }}
-              style={{
-                cursor: "pointer",
-              }}
-            >
-              My Orders
-            </p>
-          </div>
+      <div className="flex justify-between items-center p-4 w-full">
+        {/* Logo */}
+        <div className="flex items-center space-x-2">
+          <p className="font-bold text-xl">B</p>
+          <img src="/logo3.png" alt="books" className="h-8" />
+          <p className="font-bold text-xl">ks</p>
         </div>
-        <div className={styles.users}>
-          <div className={styles.usercart}>
-            <div
-              style={{
-                position: "relative",
-              }}
-            >
-              <FontAwesomeIcon
-                className={styles.cart}
-                icon={faCartShopping}
-                style={{
-                  cursor: "pointer",
-                }}
-                onClick={() => {
-                  if (user) {
-                    setShowModal(true);
-                  } else {
-                    showNotification({
-                      message: "Please login to view cart items",
-                    });
-                  }
-                }}
-              />
-              <div
-                style={{
-                  cursor: "pointer",
-                  position: "absolute",
-                  top: -10,
-                  background: "red",
-                  height: 20,
-                  width: 20,
-                  borderRadius: "50%",
-                  fontSize: 12,
-                  right: 20,
-                }}
-              >
-                <Center>{userItems.length}</Center>
-              </div>
-            </div>
-            {user && (
-              <button
-                className={styles.user}
-                onClick={async () => {
-        if (typeof window !== "undefined") {
 
-                  localStorage.clear();
-        }
-                  window.location.href = "/";
-                }}
-              >
-                Logout
-              </button>
-            )}
-            {!user && (
-              <button className={styles.user}>
-                <Link href={"/login"}>LOGIN</Link>
-              </button>
-            )}
+        {/* Desktop Menu (Hidden on mobile) */}
+        <div className="hidden md:flex space-x-6 ml-8">
+          <p className="cursor-pointer" onClick={() => (window.location.href = "/")}>Home</p>
+          <p className="cursor-pointer" onClick={() => (window.location.href = "/adminPanel")}>Admin Panel</p>
+          <p className="cursor-pointer mr-6" onClick={() => (window.location.href = "/myorders")}>My Orders</p>
+        </div>
+
+        {/* Grouping Cart, Login, and Hamburger Menu */}
+        <div className=" flex items-center space-x-4"> {/* Increased space to make it even */}
+        
+          {/* Cart Icon */}
+          <div style={{ position: "relative" }} className="mr-6">
+            <FontAwesomeIcon
+              className="cursor-pointer text-3xl "
+              icon={faCartShopping}
+              onClick={() => {
+                if (user) {
+                  setShowModal(true);
+                } else {
+                  showNotification({ message: "Please login to view cart items" });
+                }
+              }}
+            />
+            <div className="absolute top-0 right-0 bg-red-500 rounded-full text-white w-4 h-4 flex items-center justify-center text-xs" style={{ fontSize: "12px" }}>
+              {userItems.length}
+            </div>
+          </div>
+
+          {/* Login/Logout Button */}
+          {user ? (
+            <button className="bg-blue-500 text-white px-4 py-2 rounded" onClick={() => { localStorage.clear(); window.location.href = "/"; }}>
+              Logout
+            </button>
+          ) : (
+            <button className="bg-blue-500 text-white px-4 py-2 rounded">
+              <Link href="/login">LOGIN</Link>
+            </button>
+          )}
+
+          {/* Hamburger Menu Button (Visible on mobile) */}
+          <div className="md:hidden">
+            <button
+              className="text-3xl"
+              onClick={() => setIsMobileNavOpen(!isMobileNavOpen)}
+            >
+              &#9776;
+            </button>
           </div>
         </div>
       </div>
-      <Modal
-        opened={showModal}
-        onClose={() => setShowModal(false)}
-        title="User's Cart"
-        size="md"
-      >
+
+ 
+  {isMobileNavOpen && (
+  <div
+    className="md:hidden fixed top-0 left-0 w-full  bg-black bg-opacity-90 z-50 flex flex-col items-start p-6 overflow-auto"
+    style={{ maxHeight: "100vh" }}
+  >
+    <button
+      className="text-white text-2xl mb-4 self-end"
+      onClick={() => setIsMobileNavOpen(false)}
+    >
+      &times; {/* Close Button */}
+    </button>
+    <p
+      className="cursor-pointer text-white py-2 border-b border-gray-700 w-full"
+      onClick={() => {
+        window.location.href = "/";
+        setIsMobileNavOpen(false);
+      }}
+    >
+      Home
+    </p>
+    <p
+      className="cursor-pointer text-white py-2 border-b border-gray-700 w-full"
+      onClick={() => {
+        window.location.href = "/adminPanel";
+        setIsMobileNavOpen(false);
+      }}
+    >
+      Admin Panel
+    </p>
+    <p
+      className="cursor-pointer text-white py-2 w-full"
+      onClick={() => {
+        window.location.href = "/myorders";
+        setIsMobileNavOpen(false);
+      }}
+    >
+      My Orders
+    </p>
+  </div>
+)}
+
+
+      {/* Cart Modal */}
+      <Modal opened={showModal} onClose={() => setShowModal(false)} title="User's Cart" size="md">
         <Stack>
-          {userItems.length === 0 && (
-            <Center w="100%" h="100%">
-              <Text>No items in cart</Text>
-            </Center>
+          {userItems.length === 0 ? (
+            <Center w="100%" h="100%"><Text>No items in cart</Text></Center>
+          ) : (
+            userItems.map((useritem, index) => (
+              <CartItem item={useritem} onIncrease={() => dispatch(userCartActions.addproduct(useritem))} key={index} />
+            ))
           )}
-          {userItems.map((useritem,index) => {
-            return (
-              <CartItem
-                item={useritem}
-                onIncrease={() => {
-                  dispatch(userCartActions.addproduct(useritem));
-                }}
-                key={index}
-              />
-            );
-          })}
-          <Button
-            onClick={() => {
-              addToCarthandler();
-            }}
-          >
-            Order Now!
-          </Button>
+          <Button onClick={addToCarthandler}>Order Now!</Button>
         </Stack>
       </Modal>
     </>
@@ -208,3 +167,4 @@ const Navigation = () => {
 };
 
 export default Navigation;
+

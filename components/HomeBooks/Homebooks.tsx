@@ -33,7 +33,7 @@ const Homebooks: React.FC<{ data: data }> = (props) => {
   return (
     <div className={style.main}>
       <div>
-        <h1>Best Seller Books</h1>
+        <h1 className="text-3xl font-bold">Best Seller Books</h1>
         <p>Different genres,different world</p>
       </div>
       <div className={style.items}>
