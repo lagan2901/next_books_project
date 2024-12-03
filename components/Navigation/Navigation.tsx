@@ -48,22 +48,22 @@ const Navigation = () => {
   return (
     <>
       <div className="flex justify-between items-center p-4 w-full">
-        {/* Logo */}
+     
         <div className="flex items-center space-x-2">
           <p className="font-bold text-xl">B</p>
           <img src="/logo3.png" alt="books" className="h-8" />
           <p className="font-bold text-xl">ks</p>
         </div>
 
-        {/* Desktop Menu (Hidden on mobile) */}
-        <div className="hidden md:flex space-x-6 ml-8">
+      
+        <div className="hidden md:flex space-x-6 ml-8 text-2xl">
           <p className="cursor-pointer" onClick={() => (window.location.href = "/")}>Home</p>
           <p className="cursor-pointer" onClick={() => (window.location.href = "/adminPanel")}>Admin Panel</p>
           <p className="cursor-pointer mr-6" onClick={() => (window.location.href = "/myorders")}>My Orders</p>
         </div>
 
-        {/* Grouping Cart, Login, and Hamburger Menu */}
-        <div className=" flex items-center space-x-4"> {/* Increased space to make it even */}
+       
+        <div className=" flex items-center space-x-4">
         
           {/* Cart Icon */}
           <div style={{ position: "relative" }} className="mr-6">
@@ -116,7 +116,7 @@ const Navigation = () => {
       className="text-white text-2xl mb-4 self-end"
       onClick={() => setIsMobileNavOpen(false)}
     >
-      &times; {/* Close Button */}
+      &times; 
     </button>
     <p
       className="cursor-pointer text-white py-2 border-b border-gray-700 w-full"
@@ -149,7 +149,7 @@ const Navigation = () => {
 )}
 
 
-      {/* Cart Modal */}
+   
       <Modal opened={showModal} onClose={() => setShowModal(false)} title="User's Cart" size="md">
         <Stack>
           {userItems.length === 0 ? (
