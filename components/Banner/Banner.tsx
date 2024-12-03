@@ -4,7 +4,7 @@ const Banner = () => {
   return (
     <Fragment>
       <div
-        className="flex justify-center items-center bg-cover bg-center relative mt-10"
+        className="flex justify-center items-center bg-cover bg-center relative mt-10 h-full"
         style={{ backgroundImage: "url(/photo.png)" }}
       >
         <div className="flex flex-col items-center justify-center w-full bg-gradient-to-l from-gray-900/30 to-gray-900/90 p-16 text-center">
